@@ -37,10 +37,13 @@
 
 #define VALIDATE_FSTFLAGS_OR_RETURN(flags)                                    \
   do {                                                                        \
-    if ((flags) & ~(UVWASI_FILESTAT_SET_ATIM |                                \
-                    UVWASI_FILESTAT_SET_ATIM_NOW |                            \
-                    UVWASI_FILESTAT_SET_MTIM |                                \
-                    UVWASI_FILESTAT_SET_MTIM_NOW)) {                          \
+    uvwasi_fstflags_t f = flags;                                              \
+    if (((f) & ~(UVWASI_FILESTAT_SET_ATIM | UVWASI_FILESTAT_SET_ATIM_NOW |    \
+                 UVWASI_FILESTAT_SET_MTIM | UVWASI_FILESTAT_SET_MTIM_NOW)) || \
+        ((f) & (UVWASI_FILESTAT_SET_ATIM | UVWASI_FILESTAT_SET_ATIM_NOW))     \
+            == (UVWASI_FILESTAT_SET_ATIM | UVWASI_FILESTAT_SET_ATIM_NOW) ||   \
+        ((f) & (UVWASI_FILESTAT_SET_MTIM | UVWASI_FILESTAT_SET_MTIM_NOW))     \
+            == (UVWASI_FILESTAT_SET_MTIM | UVWASI_FILESTAT_SET_MTIM_NOW)) {   \
       return UVWASI_EINVAL;                                                   \
     }                                                                         \
   } while (0)
@@ -1789,8 +1792,6 @@ uvwasi_errno_t uvwasi_path_filestat_set_times(uvwasi_t* uvwasi,
   if (uvwasi == NULL || path == NULL)
     return UVWASI_EINVAL;
 
-  VALIDATE_FSTFLAGS_OR_RETURN(fst_flags);
-
   err = uvwasi_fd_table_get(uvwasi->fds,
                             fd,
                             &wrap,
@@ -1798,6 +1799,8 @@ uvwasi_errno_t uvwasi_path_filestat_set_times(uvwasi_t* uvwasi,
                             0);
   if (err != UVWASI_ESUCCESS)
     return err;
+
+  VALIDATE_FSTFLAGS_OR_RETURN(fst_flags);
 
   err = uvwasi__resolve_path(uvwasi,
                              wrap,
