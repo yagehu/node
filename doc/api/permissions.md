@@ -27,7 +27,7 @@ If you find a potential security vulnerability, please refer to our
 
 <!-- type=misc -->
 
-> Stability: 1 - Experimental
+> Stability: 0 - Deprecated: Will be removed shortly
 
 <!-- name=policy -->
 
@@ -580,12 +580,11 @@ There are constraints you need to know before using this system:
   not subject to the rules of the Permission Model.
 * OpenSSL engines cannot be requested at runtime when the Permission
   Model is enabled, affecting the built-in crypto, https, and tls modules.
+* Using existing file descriptors via the `node:fs` module bypasses the
+  Permission Model.
 
 #### Limitations and Known Issues
 
-* When the permission model is enabled, Node.js may resolve some paths
-  differently than when it is disabled.
-* Relative paths are not supported through the CLI (`--allow-fs-*`).
 * Symbolic links will be followed even to locations outside of the set of paths
   that access has been granted to. Relative symbolic links may allow access to
   arbitrary files and directories. When starting applications with the
