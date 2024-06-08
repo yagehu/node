@@ -88,6 +88,9 @@ Allow using native addons when using the permission model.
 .It Fl -allow-child-process
 Allow spawning process when using the permission model.
 .
+.It Fl -allow-wasi
+Allow execution of WASI when using the permission model.
+.
 .It Fl -allow-worker
 Allow creating worker threads when using the permission model.
 .
@@ -187,6 +190,9 @@ Enable code coverage in the test runner.
 .
 .It Fl -experimental-test-module-mocks
 Enable module mocking in the test runner.
+.
+.It Fl -experimental-test-snapshots
+Enable snapshot testing in the test runner.
 .
 .It Fl -experimental-eventsource
 Enable experimental support for the EventSource Web API.
@@ -450,6 +456,9 @@ whose name matches the provided pattern.
 .
 .It Fl -test-timeout
 A number of milliseconds the test execution will fail after.
+.
+.It Fl -test-update-snapshots
+Regenerates the snapshot file used by the test runner for snapshot testing.
 .
 .It Fl -throw-deprecation
 Throw errors for deprecations.
@@ -789,8 +798,3 @@ Documentation:
 .Pp
 GitHub repository and issue tracker:
 .Sy https://github.com/nodejs/node
-.
-.Pp
-IRC (general questions):
-.Sy "libera.chat #node.js"
-(unofficial)

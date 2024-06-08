@@ -153,6 +153,7 @@
       'src/permission/fs_permission.cc',
       'src/permission/inspector_permission.cc',
       'src/permission/permission.cc',
+      'src/permission/wasi_permission.cc',
       'src/permission/worker_permission.cc',
       'src/pipe_wrap.cc',
       'src/process_wrap.cc',
@@ -277,6 +278,7 @@
       'src/permission/fs_permission.h',
       'src/permission/inspector_permission.h',
       'src/permission/permission.h',
+      'src/permission/wasi_permission.h',
       'src/permission/worker_permission.h',
       'src/pipe_wrap.h',
       'src/req_wrap.h',
@@ -473,15 +475,6 @@
         '-Werror=undefined-inline',
         '-Werror=extra-semi',
       ],
-    },
-
-    # Relevant only for x86.
-    # Refs: https://github.com/nodejs/node/pull/25852
-    # Refs: https://docs.microsoft.com/en-us/cpp/build/reference/safeseh-image-has-safe-exception-handlers
-    'msvs_settings': {
-      'VCLinkerTool': {
-        'ImageHasSafeExceptionHandlers': 'false',
-      },
     },
 
     'conditions': [

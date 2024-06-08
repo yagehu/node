@@ -147,7 +147,7 @@ ifdef JOBS
 	NINJA_ARGS := $(NINJA_ARGS) -j$(JOBS)
 else
 	IMMEDIATE_NINJA_ARGS := $(NINJA_ARGS)
-	NINJA_ARGS = $(IMMEDIATE_NINJA_ARGS) $(filter -j%,$(MAKEFLAGS))
+	NINJA_ARGS = $(filter -j%,$(MAKEFLAGS))$(IMMEDIATE_NINJA_ARGS)
 endif
 $(NODE_EXE): config.gypi out/Release/build.ninja
 	$(NINJA) -C out/Release $(NINJA_ARGS)
@@ -553,6 +553,7 @@ test-ci-native: | benchmark/napi/.buildstamp test/addons/.buildstamp test/js-nat
 test-ci-js: | clear-stalled
 	$(PYTHON) tools/test.py $(PARALLEL_ARGS) -p tap --logfile test.tap \
 		--mode=$(BUILDTYPE_LOWER) --flaky-tests=$(FLAKY_TESTS) \
+		--skip-tests=$(CI_SKIP_TESTS) \
 		$(TEST_CI_ARGS) $(CI_JS_SUITES)
 	$(info Clean up any leftover processes, error if found.)
 	ps awwx | grep Release/node | grep -v grep | cat
@@ -1524,8 +1525,8 @@ cpplint: lint-cpp
 # Try with '--system' if it fails without; the system may have set '--user'
 lint-py-build:
 	$(info Pip installing ruff on $(shell $(PYTHON) --version)...)
-	$(PYTHON) -m pip install --upgrade --target tools/pip/site-packages ruff==0.3.4 || \
-		$(PYTHON) -m pip install --upgrade --system --target tools/pip/site-packages ruff==0.3.4
+	$(PYTHON) -m pip install --upgrade --target tools/pip/site-packages ruff==0.4.5 || \
+		$(PYTHON) -m pip install --upgrade --system --target tools/pip/site-packages ruff==0.4.5
 
 .PHONY: lint-py
 ifneq ("","$(wildcard tools/pip/site-packages/ruff)")
