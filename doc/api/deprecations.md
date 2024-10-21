@@ -695,6 +695,9 @@ Type: End-of-Life
 
 <!-- YAML
 changes:
+  - version: REPLACEME
+    pr-url: https://github.com/nodejs/node/pull/55175
+    description: Runtime deprecation.
   - version: v6.12.0
     pr-url: https://github.com/nodejs/node/pull/10116
     description: A deprecation code has been assigned.
@@ -703,7 +706,7 @@ changes:
     description: Documentation-only deprecation.
 -->
 
-Type: Documentation-only
+Type: Runtime
 
 The [`SlowBuffer`][] class is deprecated. Please use
 [`Buffer.allocUnsafeSlow(size)`][] instead.
@@ -996,7 +999,7 @@ instead.
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1023,7 +1026,7 @@ The `util.isBoolean()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1050,7 +1053,7 @@ The `util.isBuffer()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1077,7 +1080,7 @@ The `util.isDate()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1105,7 +1108,7 @@ instead.
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1132,7 +1135,7 @@ The `util.isFunction()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1159,7 +1162,7 @@ The `util.isNull()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1186,7 +1189,7 @@ The `util.isNullOrUndefined()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1213,7 +1216,7 @@ The `util.isNumber()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1240,7 +1243,7 @@ The `util.isObject()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1268,7 +1271,7 @@ instead.
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1295,7 +1298,7 @@ The `util.isRegExp()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1322,7 +1325,7 @@ The `util.isString()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1349,7 +1352,7 @@ The `util.isSymbol()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1376,7 +1379,7 @@ The `util.isUndefined()` API has been removed. Please use
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52744
     description: End-of-Life deprecation.
   - version: v22.0.0
@@ -1408,9 +1411,6 @@ requirements and complexity of your application.
 
 <!-- YAML
 changes:
-  - version: REPLACEME
-    pr-url: https://github.com/nodejs/node/pull/52744
-    description: End-of-Life deprecation.
   - version: v22.0.0
     pr-url: https://github.com/nodejs/node/pull/50488
     description: Runtime deprecation.
@@ -1422,9 +1422,9 @@ changes:
     description: Documentation-only deprecation.
 -->
 
-Type: End-of-Life
+Type: Runtime
 
-The `util._extend()` API has been removed because it's an unmaintained
+The [`util._extend()`][] API is deprecated because it's an unmaintained
 legacy API that was exposed to user land by accident.
 Please use `target = Object.assign(target, source)` instead.
 
@@ -2033,12 +2033,15 @@ or `module.exports` instead.
 
 <!-- YAML
 changes:
+  - version: v23.0.0
+    pr-url: https://github.com/nodejs/node/pull/55019
+    description: Runtime deprecation.
   - version: v10.0.0
     pr-url: https://github.com/nodejs/node/pull/18335
     description: Documentation-only deprecation.
 -->
 
-Type: Documentation-only
+Type: Runtime
 
 The [`crypto.fips`][] property is deprecated. Please use `crypto.setFips()`
 and `crypto.getFips()` instead.
@@ -2145,6 +2148,9 @@ parameter.
 
 <!-- YAML
 changes:
+  - version: v23.0.0
+    pr-url: https://github.com/nodejs/node/pull/55035
+    description: End-of-Life.
   - version: v10.0.0
     pr-url: https://github.com/nodejs/node/pull/18666
     description: Runtime deprecation.
@@ -2152,7 +2158,7 @@ changes:
     description: Documentation-only deprecation.
 -->
 
-Type: Runtime
+Type: End-of-Life
 
 `process.assert()` is deprecated. Please use the [`assert`][] module instead.
 
@@ -2287,6 +2293,9 @@ core and obsoleted by the removal of NPN (Next Protocol Negotiation) support.
 
 <!-- YAML
 changes:
+  - version: v23.0.0
+    pr-url: https://github.com/nodejs/node/pull/55020
+    description: End-of-Life.
   - version: v11.0.0
     pr-url: https://github.com/nodejs/node/pull/23308
     description: Runtime deprecation.
@@ -2295,7 +2304,7 @@ changes:
     description: Documentation-only deprecation.
 -->
 
-Type: Runtime
+Type: End-of-Life
 
 Deprecated alias for [`zlib.bytesWritten`][]. This original name was chosen
 because it also made sense to interpret the value as the number of bytes
@@ -3361,7 +3370,7 @@ Values other than `undefined`, `null`, integer numbers, and integer strings
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52747
     description: End-of-Life.
   - version: v22.0.0
@@ -3602,7 +3611,7 @@ Please use `value instanceof WebAssembly.Module` instead.
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/51050
     description: Runtime deprecation.
   - version:
@@ -3677,7 +3686,7 @@ Please use the [`crypto.createHmac()`][] method to create Hmac instances.
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version: v23.0.0
     pr-url: https://github.com/nodejs/node/pull/52552
     description: Runtime deprecation.
   - version: v20.13.0
@@ -3699,7 +3708,9 @@ is deprecated to better align with recommendations per [NIST SP 800-38D][].
 
 <!-- YAML
 changes:
-  - version: REPLACEME
+  - version:
+    - v22.4.0
+    - v20.16.0
     pr-url: https://github.com/nodejs/node/pull/53329
     description: Documentation-only deprecation.
 -->
@@ -3711,6 +3722,40 @@ switch to its new provider model. The `clientCertEngine` option for
 `https.request()`, [`tls.createSecureContext()`][], and [`tls.createServer()`][];
 the `privateKeyEngine` and `privateKeyIdentifier` for [`tls.createSecureContext()`][];
 and [`crypto.setEngine()`][] all depend on this functionality from OpenSSL.
+
+### DEP0184: Instantiating `node:zlib` classes without `new`
+
+<!-- YAML
+changes:
+  - version:
+    - v22.9.0
+    - v20.18.0
+    pr-url: https://github.com/nodejs/node/pull/54708
+    description: Documentation-only deprecation.
+-->
+
+Type: Documentation-only
+
+Instantiating classes without the `new` qualifier exported by the `node:zlib` module is deprecated.
+It is recommended to use the `new` qualifier instead. This applies to all Zlib classes, such as `Deflate`,
+`DeflateRaw`, `Gunzip`, `Inflate`, `InflateRaw`, `Unzip`, and `Zlib`.
+
+### DEP0185: Instantiating `node:repl` classes without `new`
+
+<!-- YAML
+changes:
+  - version:
+    - v22.9.0
+    - v20.18.0
+    pr-url: https://github.com/nodejs/node/pull/54842
+    description: Documentation-only deprecation.
+-->
+
+Type: Documentation-only
+
+Instantiating classes without the `new` qualifier exported by the `node:repl` module is deprecated.
+It is recommended to use the `new` qualifier instead. This applies to all REPL classes, including
+`REPLServer` and `Recoverable`.
 
 [NIST SP 800-38D]: https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38d.pdf
 [RFC 6066]: https://tools.ietf.org/html/rfc6066#section-3
@@ -3836,6 +3881,7 @@ and [`crypto.setEngine()`][] all depend on this functionality from OpenSSL.
 [`url.format()`]: url.md#urlformaturlobject
 [`url.parse()`]: url.md#urlparseurlstring-parsequerystring-slashesdenotehost
 [`url.resolve()`]: url.md#urlresolvefrom-to
+[`util._extend()`]: util.md#util_extendtarget-source
 [`util.getSystemErrorName()`]: util.md#utilgetsystemerrornameerr
 [`util.inspect()`]: util.md#utilinspectobject-options
 [`util.inspect.custom`]: util.md#utilinspectcustom

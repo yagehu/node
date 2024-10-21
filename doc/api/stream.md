@@ -45,8 +45,11 @@ There are four fundamental stream types within Node.js:
   is written and read (for example, [`zlib.createDeflate()`][]).
 
 Additionally, this module includes the utility functions
-[`stream.pipeline()`][], [`stream.finished()`][], [`stream.Readable.from()`][]
-and [`stream.addAbortSignal()`][].
+[`stream.duplexPair()`][],
+[`stream.pipeline()`][],
+[`stream.finished()`][]
+[`stream.Readable.from()`][], and
+[`stream.addAbortSignal()`][].
 
 ### Streams Promises API
 
@@ -254,6 +257,11 @@ changes:
     - v18.14.0
     pr-url: https://github.com/nodejs/node/pull/46205
     description: Added support for `ReadableStream` and `WritableStream`.
+  - version:
+    - v19.1.0
+    - v18.13.0
+    pr-url: https://github.com/nodejs/node/pull/44862
+    description: The `cleanup` option was added.
 -->
 
 * `stream` {Stream|ReadableStream|WritableStream} A readable and/or writable
@@ -262,7 +270,9 @@ changes:
   * `error` {boolean|undefined}
   * `readable` {boolean|undefined}
   * `writable` {boolean|undefined}
-  * `signal`: {AbortSignal|undefined}
+  * `signal` {AbortSignal|undefined}
+  * `cleanup` {boolean|undefined} If `true`, removes the listeners registered by
+    this function before the promise is fulfilled. **Default:** `false`.
 * Returns: {Promise} Fulfills when the stream is no
   longer readable or writable.
 
@@ -297,6 +307,17 @@ rs.resume(); // Drain the stream.
 ```
 
 The `finished` API also provides a [callback version][stream-finished].
+
+`stream.finished()` leaves dangling event listeners (in particular
+`'error'`, `'end'`, `'finish'` and `'close'`) after the returned promise is
+resolved or rejected. The reason for this is so that unexpected `'error'`
+events (due to incorrect stream implementations) do not cause unexpected
+crashes. If this is unwanted behavior then `options.cleanup` should be set to
+`true`:
+
+```js
+await finished(rs, { cleanup: true });
+```
 
 ### Object mode
 
@@ -953,6 +974,19 @@ added: v12.3.0
 * {boolean}
 
 Getter for the property `objectMode` of a given `Writable` stream.
+
+##### `writable[Symbol.asyncDispose]()`
+
+<!-- YAML
+added:
+- v22.4.0
+- v20.16.0
+-->
+
+> Stability: 1 - Experimental
+
+Calls [`writable.destroy()`][writable-destroy] with an `AbortError` and returns
+a promise that fulfills when the stream is finished.
 
 ##### `writable.write(chunk[, encoding][, callback])`
 
@@ -2201,7 +2235,7 @@ stopped by having passed a `signal` option and aborting the related
 `return`. In either case the stream will be destroyed.
 
 This method is different from listening to the [`'data'`][] event in that it
-uses the [`readable`][] event in the underlying machinary and can limit the
+uses the [`readable`][] event in the underlying machinery and can limit the
 number of concurrent `fn` calls.
 
 ```mjs
@@ -2670,6 +2704,32 @@ unless `emitClose` is set in false.
 Once `destroy()` has been called, any further calls will be a no-op and no
 further errors except from `_destroy()` may be emitted as `'error'`.
 
+#### `stream.duplexPair([options])`
+
+<!-- YAML
+added:
+  - v22.6.0
+  - v20.17.0
+-->
+
+* `options` {Object} A value to pass to both [`Duplex`][] constructors,
+  to set options such as buffering.
+* Returns: {Array} of two [`Duplex`][] instances.
+
+The utility function `duplexPair` returns an Array with two items,
+each being a `Duplex` stream connected to the other side:
+
+```js
+const [ sideA, sideB ] = duplexPair();
+```
+
+Whatever is written to one stream is made readable on the other. It provides
+behavior analogous to a network connection, where the data written by the client
+becomes readable by the server, and vice-versa.
+
+The Duplex streams are symmetrical; one or the other may be used without any
+difference in behavior.
+
 ### `stream.finished(stream[, options], callback)`
 
 <!-- YAML
@@ -2712,8 +2772,6 @@ changes:
     underlying stream will _not_ be aborted if the signal is aborted. The
     callback will get called with an `AbortError`. All registered
     listeners added by this function will also be removed.
-  * `cleanup` {boolean} remove all registered stream listeners.
-    **Default:** `false`.
 * `callback` {Function} A callback function that takes an optional error
   argument.
 * Returns: {Function} A cleanup function which removes all registered
@@ -3417,7 +3475,7 @@ added:
 * Returns: {integer}
 
 Returns the default highWaterMark used by streams.
-Defaults to `16384` (16 KiB), or `16` for `objectMode`.
+Defaults to `65536` (64 KiB), or `16` for `objectMode`.
 
 ### `stream.setDefaultHighWaterMark(objectMode, value)`
 
@@ -4862,6 +4920,7 @@ contain multi-byte characters.
 [`stream.addAbortSignal()`]: #streamaddabortsignalsignal-stream
 [`stream.compose`]: #streamcomposestreams
 [`stream.cork()`]: #writablecork
+[`stream.duplexPair()`]: #streamduplexpairoptions
 [`stream.finished()`]: #streamfinishedstream-options-callback
 [`stream.pipe()`]: #readablepipedestination-options
 [`stream.pipeline()`]: #streampipelinesource-transforms-destination-callback

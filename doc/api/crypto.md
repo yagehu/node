@@ -980,6 +980,11 @@ The `decipher.update()` method can be called multiple times with new data until
 [`decipher.final()`][] is called. Calling `decipher.update()` after
 [`decipher.final()`][] will result in an error being thrown.
 
+Even if the underlying cipher implements authentication, the authenticity and
+integrity of the plaintext returned from this function may be uncertain at this
+time. For authenticated encryption algorithms, authenticity is generally only
+established when the application calls [`decipher.final()`][].
+
 ## Class: `DiffieHellman`
 
 <!-- YAML
@@ -2131,6 +2136,26 @@ added: v11.6.0
 For secret keys, this property represents the size of the key in bytes. This
 property is `undefined` for asymmetric keys.
 
+### `keyObject.toCryptoKey(algorithm, extractable, keyUsages)`
+
+<!-- YAML
+added:
+ - v23.0.0
+ - v22.10.0
+-->
+
+<!--lint disable maximum-line-length remark-lint-->
+
+* `algorithm`: {AlgorithmIdentifier|RsaHashedImportParams|EcKeyImportParams|HmacImportParams}
+
+<!--lint enable maximum-line-length remark-lint-->
+
+* `extractable`: {boolean}
+* `keyUsages`: {string\[]} See [Key usages][].
+* Returns: {CryptoKey}
+
+Converts a `KeyObject` instance to a `CryptoKey`.
+
 ### `keyObject.type`
 
 <!-- YAML
@@ -2860,6 +2885,18 @@ added: v15.6.0
 
 The date/time from which this certificate is valid.
 
+### `x509.validFromDate`
+
+<!-- YAML
+added:
+ - v23.0.0
+ - v22.10.0
+-->
+
+* Type: {Date}
+
+The date/time from which this certificate is valid, encapsulated in a `Date` object.
+
 ### `x509.validTo`
 
 <!-- YAML
@@ -2869,6 +2906,18 @@ added: v15.6.0
 * Type: {string}
 
 The date/time until which this certificate is valid.
+
+### `x509.validToDate`
+
+<!-- YAML
+added:
+ - v23.0.0
+ - v22.10.0
+-->
+
+* Type: {Date}
+
+The date/time until which this certificate is valid, encapsulated in a `Date` object.
 
 ### `x509.verify(publicKey)`
 
@@ -5272,7 +5321,9 @@ added: v15.6.0
 <!-- YAML
 added: v0.11.11
 changes:
-  - version: REPLACEME
+  - version:
+    - v22.4.0
+    - v20.16.0
     pr-url: https://github.com/nodejs/node/pull/53329
     description: Custom engine support in OpenSSL 3 is deprecated.
 -->
@@ -5941,7 +5992,7 @@ See the [list of SSL OP Flags][] for details.
   </tr>
   <tr>
     <td><code>ENGINE_METHOD_PKEY_METHS</code></td>
-    <td>Limit engine usage to PKEY_METHDS</td>
+    <td>Limit engine usage to PKEY_METHS</td>
   </tr>
   <tr>
     <td><code>ENGINE_METHOD_PKEY_ASN1_METHS</code></td>
@@ -6060,6 +6111,7 @@ See the [list of SSL OP Flags][] for details.
 [FIPS provider from OpenSSL 3]: https://www.openssl.org/docs/man3.0/man7/crypto.html#FIPS-provider
 [HTML 5.2]: https://www.w3.org/TR/html52/changes.html#features-removed
 [JWK]: https://tools.ietf.org/html/rfc7517
+[Key usages]: webcrypto.md#cryptokeyusages
 [NIST SP 800-131A]: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-131Ar2.pdf
 [NIST SP 800-132]: https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf
 [NIST SP 800-38D]: https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38d.pdf
