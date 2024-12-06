@@ -188,7 +188,7 @@
             }],
           ],
         },
-        'cflags': [ '-O3' ],
+        'cflags': [ '-O3', "-fprofile-instr-generate", "-fcoverage-mapping" ],
         'conditions': [
           ['enable_lto=="true"', {
             'cflags': ['<(lto)'],
